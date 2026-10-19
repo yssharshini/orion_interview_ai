@@ -1,0 +1,499 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "category": "Machine Learning",
+      "question": "What is overfitting and how can you prevent it?",
+      "ideal_answer": "Overfitting happens when a model learns the noise and details of the training data so well that it performs poorly on unseen data. It shows up as low training error but high validation error. It can be prevented with more training data, regularization such as L1 or L2, dropout, early stopping, cross-validation, and by using a simpler model.",
+      "concepts": [
+        {
+          "name": "Definition (fits noise)",
+          "keywords": [
+            "noise",
+            "memorize",
+            "memorise",
+            "too well"
+          ]
+        },
+        {
+          "name": "Train vs validation gap",
+          "keywords": [
+            "validation",
+            "unseen",
+            "test error",
+            "generalize",
+            "generalise"
+          ]
+        },
+        {
+          "name": "Regularization",
+          "keywords": [
+            "regularization",
+            "regularisation",
+            "l1",
+            "l2",
+            "dropout"
+          ]
+        },
+        {
+          "name": "Cross-validation",
+          "keywords": [
+            "cross-validation",
+            "cross validation",
+            "k-fold"
+          ]
+        },
+        {
+          "name": "Early stopping / more data",
+          "keywords": [
+            "early stopping",
+            "more data",
+            "simpler model"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "Machine Learning",
+      "question": "Explain the bias-variance tradeoff.",
+      "ideal_answer": "Bias is error from overly simple assumptions, causing underfitting. Variance is error from sensitivity to small fluctuations in the training data, causing overfitting. Increasing model complexity lowers bias but raises variance. The goal is to find a balance that minimizes total error on unseen data.",
+      "concepts": [
+        {
+          "name": "Bias = underfitting",
+          "keywords": [
+            "bias",
+            "underfit"
+          ]
+        },
+        {
+          "name": "Variance = overfitting",
+          "keywords": [
+            "variance",
+            "overfit",
+            "sensitive"
+          ]
+        },
+        {
+          "name": "Complexity tradeoff",
+          "keywords": [
+            "complexity",
+            "tradeoff",
+            "trade-off",
+            "balance"
+          ]
+        },
+        {
+          "name": "Total error",
+          "keywords": [
+            "total error",
+            "generalization",
+            "generalisation",
+            "unseen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "Machine Learning",
+      "question": "What is the difference between supervised and unsupervised learning?",
+      "ideal_answer": "Supervised learning trains on labeled data to learn a mapping from inputs to outputs, for tasks like classification and regression. Unsupervised learning finds structure in unlabeled data, for tasks like clustering and dimensionality reduction. Examples are logistic regression for supervised and k-means for unsupervised.",
+      "concepts": [
+        {
+          "name": "Labeled data",
+          "keywords": [
+            "label",
+            "labeled",
+            "labelled"
+          ]
+        },
+        {
+          "name": "Classification/regression",
+          "keywords": [
+            "classification",
+            "regression"
+          ]
+        },
+        {
+          "name": "Clustering / structure",
+          "keywords": [
+            "cluster",
+            "k-means",
+            "structure",
+            "pattern"
+          ]
+        },
+        {
+          "name": "Dimensionality reduction",
+          "keywords": [
+            "dimensionality",
+            "pca"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "Deep Learning",
+      "question": "What is backpropagation?",
+      "ideal_answer": "Backpropagation is the algorithm used to train neural networks. It computes the gradient of the loss with respect to each weight using the chain rule, propagating the error backward from the output layer to the input layer. The gradients are then used by an optimizer such as gradient descent to update the weights.",
+      "concepts": [
+        {
+          "name": "Gradient of loss",
+          "keywords": [
+            "gradient",
+            "loss"
+          ]
+        },
+        {
+          "name": "Chain rule",
+          "keywords": [
+            "chain rule"
+          ]
+        },
+        {
+          "name": "Backward pass",
+          "keywords": [
+            "backward",
+            "output layer"
+          ]
+        },
+        {
+          "name": "Weight update / optimizer",
+          "keywords": [
+            "gradient descent",
+            "optimizer",
+            "update the weights",
+            "update weights"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "category": "Deep Learning",
+      "question": "What is the vanishing gradient problem?",
+      "ideal_answer": "In deep networks, gradients can shrink exponentially as they are propagated backward through many layers, especially with sigmoid or tanh activations. Early layers then learn very slowly. It is mitigated using ReLU activations, batch normalization, residual connections, and careful weight initialization.",
+      "concepts": [
+        {
+          "name": "Gradients shrink",
+          "keywords": [
+            "shrink",
+            "vanish",
+            "small gradient",
+            "exponentially"
+          ]
+        },
+        {
+          "name": "Deep layers / early layers",
+          "keywords": [
+            "deep",
+            "early layers",
+            "many layers"
+          ]
+        },
+        {
+          "name": "Sigmoid/tanh cause",
+          "keywords": [
+            "sigmoid",
+            "tanh"
+          ]
+        },
+        {
+          "name": "ReLU / residual / batchnorm",
+          "keywords": [
+            "relu",
+            "residual",
+            "batch normalization",
+            "batch norm",
+            "initialization",
+            "initialisation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "category": "NLP",
+      "question": "What are word embeddings and why are they useful?",
+      "ideal_answer": "Word embeddings are dense vector representations of words where semantically similar words are close together in vector space. They are learned from large text corpora using methods like Word2Vec, GloVe or transformers. They capture meaning and relationships, and let models generalize better than sparse one-hot encodings.",
+      "concepts": [
+        {
+          "name": "Dense vectors",
+          "keywords": [
+            "dense",
+            "vector"
+          ]
+        },
+        {
+          "name": "Semantic similarity",
+          "keywords": [
+            "similar",
+            "semantic",
+            "meaning",
+            "distance"
+          ]
+        },
+        {
+          "name": "Word2Vec/GloVe/transformer",
+          "keywords": [
+            "word2vec",
+            "glove",
+            "transformer",
+            "bert"
+          ]
+        },
+        {
+          "name": "Better than one-hot",
+          "keywords": [
+            "one-hot",
+            "one hot",
+            "sparse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "category": "NLP",
+      "question": "How does the attention mechanism work in transformers?",
+      "ideal_answer": "Attention lets a model weigh the importance of every token relative to others when building a representation. Each token produces a query, key and value vector. The query is compared with all keys using a dot product, scaled and passed through softmax to give weights, which are used to take a weighted sum of the values. Multi-head attention runs this several times in parallel.",
+      "concepts": [
+        {
+          "name": "Query, key, value",
+          "keywords": [
+            "query",
+            "key",
+            "value"
+          ]
+        },
+        {
+          "name": "Dot product + softmax",
+          "keywords": [
+            "dot product",
+            "softmax",
+            "scaled"
+          ]
+        },
+        {
+          "name": "Weighted sum",
+          "keywords": [
+            "weighted sum",
+            "weights",
+            "weigh"
+          ]
+        },
+        {
+          "name": "Multi-head",
+          "keywords": [
+            "multi-head",
+            "multihead",
+            "multiple heads"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "category": "Data Science",
+      "question": "How do you handle imbalanced datasets?",
+      "ideal_answer": "I would first use appropriate metrics such as precision, recall, F1 or AUC instead of accuracy. Then I would resample the data using oversampling like SMOTE or undersampling, use class weights in the loss, or try ensemble methods and anomaly detection approaches. Stratified splits keep class proportions during validation.",
+      "concepts": [
+        {
+          "name": "Right metrics",
+          "keywords": [
+            "precision",
+            "recall",
+            "f1",
+            "auc"
+          ]
+        },
+        {
+          "name": "Resampling / SMOTE",
+          "keywords": [
+            "smote",
+            "oversampl",
+            "undersampl",
+            "resampl"
+          ]
+        },
+        {
+          "name": "Class weights",
+          "keywords": [
+            "class weight",
+            "weighted loss"
+          ]
+        },
+        {
+          "name": "Stratified split",
+          "keywords": [
+            "stratified"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "category": "Data Science",
+      "question": "What is the difference between precision and recall?",
+      "ideal_answer": "Precision is the fraction of predicted positives that are actually positive, true positives divided by true positives plus false positives. Recall is the fraction of actual positives that the model finds, true positives divided by true positives plus false negatives. The F1 score is their harmonic mean and is useful when there is a tradeoff.",
+      "concepts": [
+        {
+          "name": "Precision definition",
+          "keywords": [
+            "precision",
+            "predicted positive",
+            "false positive"
+          ]
+        },
+        {
+          "name": "Recall definition",
+          "keywords": [
+            "recall",
+            "actual positive",
+            "false negative"
+          ]
+        },
+        {
+          "name": "F1 harmonic mean",
+          "keywords": [
+            "f1",
+            "harmonic"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "category": "Behavioral",
+      "question": "Tell me about yourself.",
+      "ideal_answer": "I am an engineering student specializing in artificial intelligence and machine learning. I have built projects that apply machine learning to real problems and I enjoy working in teams. I am looking for an opportunity to apply my skills, keep learning, and contribute to a product with real impact.",
+      "concepts": [
+        {
+          "name": "Background / education",
+          "keywords": [
+            "student",
+            "engineering",
+            "degree",
+            "studying"
+          ]
+        },
+        {
+          "name": "Projects / skills",
+          "keywords": [
+            "project",
+            "built",
+            "skills",
+            "experience"
+          ]
+        },
+        {
+          "name": "Goal / motivation",
+          "keywords": [
+            "looking for",
+            "opportunity",
+            "goal",
+            "contribute",
+            "learn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "category": "Behavioral",
+      "question": "Describe a time you faced a challenge in a team project and how you handled it.",
+      "ideal_answer": "In a team project, we hit a disagreement about the approach and a missed deadline. I described the situation clearly, listened to everyone's views, and proposed splitting the work by strengths with short daily check-ins. As a result we delivered on time and I learned the value of communication and clear ownership.",
+      "concepts": [
+        {
+          "name": "Situation / task",
+          "keywords": [
+            "situation",
+            "project",
+            "deadline",
+            "disagreement"
+          ]
+        },
+        {
+          "name": "Action taken",
+          "keywords": [
+            "i proposed",
+            "i organised",
+            "i organized",
+            "i decided",
+            "i suggested",
+            "action"
+          ]
+        },
+        {
+          "name": "Result",
+          "keywords": [
+            "result",
+            "delivered",
+            "outcome",
+            "successfully"
+          ]
+        },
+        {
+          "name": "Reflection / learning",
+          "keywords": [
+            "learned",
+            "learnt",
+            "lesson"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "category": "Computer Science",
+      "question": "What is the difference between a process and a thread?",
+      "ideal_answer": "A process is an independent program in execution with its own memory space. A thread is a lightweight unit of execution within a process that shares the process's memory and resources with other threads. Threads are cheaper to create and switch between, but sharing memory requires synchronization to avoid race conditions.",
+      "concepts": [
+        {
+          "name": "Process = own memory",
+          "keywords": [
+            "own memory",
+            "independent",
+            "separate memory",
+            "isolated"
+          ]
+        },
+        {
+          "name": "Thread = shared memory",
+          "keywords": [
+            "shares",
+            "shared",
+            "lightweight"
+          ]
+        },
+        {
+          "name": "Synchronization / race",
+          "keywords": [
+            "synchroniz",
+            "race condition",
+            "lock",
+            "mutex"
+          ]
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "Regularization": "Andrew Ng ML Specialization - Regularization; sklearn Ridge/Lasso docs",
+    "Cross-validation": "sklearn user guide: Cross-validation (k-fold, stratified)",
+    "Chain rule": "3Blue1Brown - Backpropagation calculus (YouTube)",
+    "Query, key, value": "Jay Alammar - The Illustrated Transformer",
+    "Multi-head": "Jay Alammar - The Illustrated Transformer",
+    "Dot product + softmax": "'Attention Is All You Need' (Vaswani et al.) Sec. 3.2",
+    "Right metrics": "Google ML Crash Course - Classification: precision & recall",
+    "Resampling / SMOTE": "imbalanced-learn docs - SMOTE",
+    "Dimensionality reduction": "StatQuest - PCA step by step (YouTube)",
+    "Word2Vec/GloVe/transformer": "Stanford CS224N lecture 1-2 (word vectors)",
+    "ReLU / residual / batchnorm": "He et al., Deep Residual Learning; CS231n notes on activations",
+    "Synchronization / race": "OS Concepts (Silberschatz) - Process synchronization chapter",
+    "Result": "STAR method guide (Situation, Task, Action, Result) - practise 3 stories aloud",
+    "Reflection / learning": "STAR method guide - always end with what you learned"
+  }
+}

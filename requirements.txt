@@ -1,0 +1,21 @@
+# --- core (needed to run the demo, works fully offline) ---
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart
+numpy
+pandas
+scikit-learn
+joblib
+httpx            # for tests
+
+# --- recommended (real AI models; code falls back gracefully without them) ---
+sentence-transformers   # semantic accuracy, topic drift, concept matching
+openai-whisper          # speech-to-text (needs ffmpeg installed)  [or: faster-whisper]
+librosa                 # audio features for vocal delivery model + fluency
+soundfile
+
+# --- optional ---
+transformers            # NLI factual consistency, pretrained speech-emotion model
+torch
+mediapipe               # face landmarks for facial expression
+opencv-python

@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orion Interview Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#EEF1FB; --paper:#FFFFFF; --ink:#1F2347; --mut:#5E6390; --line:#D9DDF2;
+  --indigo:#3A3F9E; --indigo-ink:#FFFFFF; --star:#F2B544; --star-soft:#FCEFD2;
+  --rose:#D9506F; --good:#2E8A62; --good-soft:#DDF2E8; --warn:#A35D00; --warn-soft:#FBEBD3;
+  --bad:#B03A55; --bad-soft:#F8DEE4; --track:#E4E7F6;
+  --display:"Bricolage Grotesque", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --sky:#151833; --paper:#1E2246; --ink:#ECEEFF; --mut:#A3A8D6; --line:#323771;
+    --indigo:#8E95F2; --indigo-ink:#151833; --star:#F5C35E; --star-soft:#3A3426;
+    --rose:#F07C96; --good:#6FD3A6; --good-soft:#1D3A35; --warn:#F2B76A; --warn-soft:#3B2F1F;
+    --bad:#F08AA2; --bad-soft:#3E2236; --track:#2A2F63;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sky);color:var(--ink);font:17px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+main{max-width:720px;margin:0 auto;padding:32px 16px 72px}
+
+/* Header */
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.brand svg{flex:none}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,40px);line-height:1.05;margin:0;letter-spacing:-.01em}
+.lede{color:var(--mut);margin:6px 0 24px;max-width:56ch}
+
+h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,4.2vw,27px);line-height:1.25;margin:10px 0 18px}
+h3{font-family:var(--display);font-weight:700;font-size:18px;margin:18px 0 8px}
+
+/* Panels: big panels are soft and round, small controls tighter */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mut{color:var(--mut);font-size:15px}
+
+label.field{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:inherit}
+select{max-width:280px}
+textarea{resize:vertical;min-height:120px}
+
+button{font:700 16px/1 var(--body);border-radius:999px;padding:13px 20px;cursor:pointer;border:1.5px solid transparent;transition:transform .12s ease, background-color .2s ease}
+button:active{transform:scale(.97)}
+.primary{background:var(--indigo);color:var(--indigo-ink)}
+.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.small{padding:7px 12px;font-size:14px}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:3px solid var(--star);outline-offset:2px}
+
+/* Record button: dot turns rose and pulses while recording */
+#rec .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:currentColor;margin-right:8px;vertical-align:1px}
+#rec.recording{background:var(--rose);color:#fff}
+#rec.recording .dot{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(.55);opacity:.6}}
+
+/* Constellation progress */
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.stars{display:block;height:46px;width:100%;max-width:360px}
+.stars line{stroke:var(--line);stroke-width:2.5;stroke-linecap:round}
+.stars line.lit{stroke:var(--star)}
+.stars circle{fill:var(--track);transition:fill .3s ease}
+.stars circle.lit{fill:var(--star)}
+.stars circle.now{fill:var(--paper);stroke:var(--star);stroke-width:2.5}
+.tag{display:inline-block;background:var(--star-soft);color:var(--ink);border-radius:999px;padding:3px 11px;font-size:14px;font-weight:700}
+
+/* Results */
+.result-head{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.score{font-family:var(--display);font-weight:800;font-size:54px;line-height:1;letter-spacing:-.02em}
+.score small{font-size:20px;color:var(--mut);font-weight:500}
+.grade{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 12px;font-weight:700;font-size:15px}
+.g-excellent{background:var(--star-soft);color:var(--ink)}
+.g-good{background:var(--good-soft);color:var(--good)}
+.g-fair{background:var(--warn-soft);color:var(--warn)}
+.g-work{background:var(--bad-soft);color:var(--bad)}
+
+table{width:100%;border-collapse:collapse;margin:4px 0 6px}
+td{padding:7px 0;vertical-align:middle}
+td.lbl{width:34%;font-size:15px}
+td.num{width:52px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:15px}
+.bar{height:10px;background:var(--track);border-radius:999px;overflow:hidden;margin:0 12px}
+.bar i{display:block;height:100%;background:var(--indigo);border-radius:999px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+.chip{border:1.5px solid var(--line);border-radius:999px;padding:4px 11px;font-size:14px}
+.chip b{font-variant-numeric:tabular-nums}
+.chip.on{border-color:var(--indigo);background:var(--track)}
+
+.block{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+ul{margin:6px 0 0;padding-left:20px}
+li{margin:3px 0}
+details{margin-top:14px}
+summary{cursor:pointer;font-weight:700}
+details p{color:var(--mut);margin:8px 0 0}
+.ok{color:var(--good);font-weight:700}
+
+@media (max-width:520px){
+  .panel{padding:18px;border-radius:16px}
+  td.lbl{width:38%}
+  .score{font-size:46px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<main>
+<header class="brand">
+  <!-- Orion's belt and shoulders, drawn small as the logo -->
+  <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true">
+    <g stroke="var(--line)" stroke-width="1.5" fill="none">
+      <path d="M10 6 L17 21 L23 23 L29 25 L36 40"/><path d="M34 7 L29 25"/><path d="M17 21 L12 39"/>
+    </g>
+    <g fill="var(--star)">
+      <circle cx="10" cy="6" r="3"/><circle cx="34" cy="7" r="2.5"/>
+      <circle cx="17" cy="21" r="2.4"/><circle cx="23" cy="23" r="2.4"/><circle cx="29" cy="25" r="2.4"/>
+      <circle cx="12" cy="39" r="2.5"/><circle cx="36" cy="40" r="3"/>
+    </g>
+  </svg>
+  <h1>Orion Interview Trainer</h1>
+</header>
+<p class="lede">Practise interview answers out loud, then see how you did and what to brush up on.</p>
+
+<section class="panel" id="setup">
+  <label class="field" for="cat">Choose a topic</label>
+  <div class="row">
+    <select id="cat"></select>
+    <button class="primary" id="start">Start practice</button>
+  </div>
+  <p class="mut" id="status"></p>
+</section>
+
+<section class="panel" id="qcard" hidden>
+  <div class="qtop">
+    <svg class="stars" id="stars" aria-hidden="true"></svg>
+    <button class="ghost small" id="speak-btn">🔊 Read question again</button>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <span class="mut" id="qnum"></span>
+    <span class="tag" id="qcat"></span>
+  </div>
+  <h2 id="qtext"></h2>
+  <div class="row">
+    <button class="primary" id="rec"><span class="dot"></span><span id="rec-label">Record answer</span></button>
+    <button class="ghost" id="submit">Submit answer</button>
+  </div>
+  <label class="field" for="tx" style="margin-top:18px">Your answer</label>
+  <p class="mut" style="margin:0 0 8px">Fills in as you speak (Chrome), or type it here. You can edit it before submitting.</p>
+  <textarea id="tx" rows="5" placeholder="Start recording, or type your answer…"></textarea>
+</section>
+
+<div id="result"></div>
+
+<script>
+let stopped = null, sid, qs = [], i = 0, rec, chunks = [], blob = null, t0, latency = null, sr, results = [];
+const $ = id => document.getElementById(id);
+
+// Convert WebM audio blob to WAV PCM in browser
+async function toWav(blob) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const ab = await ctx.decodeAudioData(await blob.arrayBuffer());
+  const x = ab.getChannelData(0), n = x.length;
+  const v = new DataView(new ArrayBuffer(44 + n * 2));
+  const w = (o, t) => [...t].forEach((c, idx) => v.setUint8(o + idx, c.charCodeAt(0)));
+
+  w(0, 'RIFF');
+  v.setUint32(4, 36 + n * 2, true);
+  w(8, 'WAVEfmt ');
+  v.setUint32(16, 16, true);
+  v.setUint16(20, 1, true); // PCM format
+  v.setUint16(22, 1, true); // Mono
+  v.setUint32(24, ab.sampleRate, true);
+  v.setUint32(28, ab.sampleRate * 2, true);
+  v.setUint16(32, 2, true);
+  v.setUint16(34, 16, true);
+  w(36, 'data');
+  v.setUint32(40, n * 2, true);
+
+  for (let idx = 0; idx < n; idx++) {
+    const s = Math.max(-1, Math.min(1, x[idx]));
+    v.setInt16(44 + idx * 2, s < 0 ? s * 0x8000 : s * 0x7fff, true);
+  }
+  ctx.close();
+  return new Blob([v], { type: 'audio/wav' });
+}
+
+function speakQuestion(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.95;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+// Progress as a small constellation: answered = gold, current = outlined, upcoming = dim
+function drawStars(el = $('stars')) {
+  const n = qs.length, W = 360, H = 46, pad = 14;
+  const ys = [30, 13, 33, 10, 27, 15, 35, 12];
+  const pts = qs.map((_, k) => [pad + (n > 1 ? k * (W - 2 * pad) / (n - 1) : (W - 2 * pad) / 2), ys[k % ys.length]]);
+  let svg = '';
+  for (let k = 0; k < n - 1; k++) {
+    svg += `<line x1="${pts[k][0]}" y1="${pts[k][1]}" x2="${pts[k+1][0]}" y2="${pts[k+1][1]}" class="${k < i ? 'lit' : ''}"/>`;
+  }
+  pts.forEach((p, k) => {
+    const cls = k < i ? 'lit' : (k === i ? 'now' : '');
+    svg += `<circle cx="${p[0]}" cy="${p[1]}" r="${k === i ? 8 : 6.5}" class="${cls}"/>`;
+  });
+  el.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  el.innerHTML = svg;
+}
+
+function setRecording(on) {
+  $('rec').classList.toggle('recording', on);
+  $('rec-label').textContent = on ? 'Stop recording' : 'Record answer';
+}
+
+fetch('/api/categories')
+  .then(r => r.json())
+  .then(c => {
+    $('cat').innerHTML = '<option value="all">All topics</option>' + c.map(x => `<option>${x}</option>`).join('');
+  })
+  .catch(e => console.warn('Categories error:', e));
+
+fetch('/api/health')
+  .then(r => r.json())
+  .then(h => {
+    $('status').textContent = h.asr_available
+      ? `Speech-to-text: Whisper. Scoring engine: ${h.embedding_backend}.`
+      : `Speech-to-text: your browser (or type your answer). Scoring engine: ${h.embedding_backend}.`;
+  })
+  .catch(e => console.warn('Health error:', e));
+
+$('start').onclick = async () => {
+  const r = await fetch('/api/session?category=' + encodeURIComponent($('cat').value) + '&n=5', { method: 'POST' }).then(r => r.json());
+  sid = r.session_id;
+  qs = r.questions;
+  i = 0;
+  results = [];
+  $('result').innerHTML = '';
+  $('qcard').hidden = false;
+  show();
+};
+
+function show() {
+  $('qnum').textContent = `Question ${i + 1} of ${qs.length}`;
+  $('qcat').textContent = qs[i].category;
+  $('qtext').textContent = qs[i].question;
+  $('tx').value = '';
+  blob = null;
+  latency = null;
+  t0 = Date.now();
+  drawStars();
+  speakQuestion(qs[i].question);
+}
+
+$('speak-btn').onclick = () => {
+  if (qs[i]) speakQuestion(qs[i].question);
+};
+
+$('rec').onclick = async () => {
+  if (rec && rec.state === 'recording') {
+    rec.stop();
+    if (sr) try { sr.stop(); } catch(e) {}
+    setRecording(false);
+    return;
+  }
+
+  // Stop TTS reading when user starts speaking
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+  try {
+    // Turn off the browser's voice processing: noise suppression, auto gain and echo cancellation
+    // reshape the voice; the vocal model was trained on clean, unprocessed studio recordings.
+    const s = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 }
+    });
+    chunks = [];
+    rec = new MediaRecorder(s);
+    rec.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+
+    stopped = new Promise(res => {
+      rec.onstop = () => {
+        blob = new Blob(chunks, { type: 'audio/webm' });
+        s.getTracks().forEach(t => t.stop());
+        res();
+      };
+    });
+
+    rec.start();
+    latency = (Date.now() - t0) / 1000;
+    setRecording(true);
+
+    // Live Speech Recognition in Chrome
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      sr = new SR();
+      sr.continuous = true;
+      sr.interimResults = true;
+      sr.onresult = e => {
+        let txt = '';
+        for (let k = 0; k < e.results.length; k++) {
+          txt += e.results[k][0].transcript + ' ';
+        }
+        $('tx').value = txt.trim();
+      };
+      try { sr.start(); } catch(e) {}
+    }
+  } catch (err) {
+    alert("Microphone access error: " + err.message);
+  }
+};
+
+$('submit').onclick = async () => {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+  // If user hits submit while recording, stop recording and await audio blob
+  if (rec && rec.state === 'recording') {
+    rec.stop();
+    if (sr) try { sr.stop(); } catch(e) {}
+    await stopped;
+    setRecording(false);
+  }
+
+  const f = new FormData();
+  f.append('session_id', sid);
+  f.append('question_id', qs[i].id);
+  f.append('transcript', $('tx').value);
+  if (latency != null) f.append('latency', latency);
+
+  if (blob) {
+    try {
+      const wavBlob = await toWav(blob);
+      f.append('audio', wavBlob, 'answer.wav');
+    } catch (e) {
+      console.warn("WAV conversion fallback to WebM:", e);
+      f.append('audio', blob, 'answer.webm');
+    }
+  }
+
+  $('submit').disabled = true;
+  $('submit').textContent = 'Scoring…';
+  try {
+    const r = await fetch('/api/answer', { method: 'POST', body: f });
+    if (!r.ok) {
+      alert((await r.json()).detail || "Evaluation error");
+      return;
+    }
+    const data = await r.json();
+    results.push(data);
+    renderAnswer(data);
+
+    if (i < qs.length - 1) {
+      i++;
+      show();
+    } else {
+      i = qs.length;
+      drawStars();
+      $('qcard').hidden = true;
+      finish();
+    }
+  } catch (e) {
+    alert("Submission failed: " + e.message);
+  } finally {
+    $('submit').disabled = false;
+    $('submit').textContent = 'Submit answer';
+  }
+};
+
+function bar(l, v) {
+  const score = Math.round(v || 0);
+  return `<tr><td class="lbl">${l}</td><td><div class="bar"><i style="width:${score}%"></i></div></td><td class="num">${score}</td></tr>`;
+}
+
+function gradeBadge(g) {
+  const map = { 'Excellent': ['g-excellent', '★ Excellent'], 'Good': ['g-good', 'Good'], 'Fair': ['g-fair', 'Fair'], 'Needs work': ['g-work', 'Needs work'] };
+  const [cls, txt] = map[g] || ['g-fair', g || ''];
+  return g ? `<span class="grade ${cls}">${txt}</span>` : '';
+}
+
+function renderAnswer(r) {
+  const d = document.createElement('section');
+  d.className = 'panel';
+  const q = qs.find(x => x.id === r.question_id);
+
+  const vd = r.vocal_delivery;
+  const vdHtml = vd && vd.probs
+    ? `<div class="chips">${['confident', 'flat', 'nervous'].filter(k => k in vd.probs)
+        .map(k => `<span class="chip ${k === vd.label ? 'on' : ''}">${k[0].toUpperCase() + k.slice(1)} <b>${Math.round(vd.probs[k] * 100)}%</b></span>`).join('')}</div>`
+    : `<p class="mut">${r.vocal_delivery_note || 'No audio analysed.'}</p>`;
+
+  const missingHtml = r.concepts && r.concepts.missing && r.concepts.missing.length
+    ? `<h3>Concepts to add next time</h3><ul>${(r.recommendations || []).map(x => `<li>${x.concept} <span class="mut">${x.study || ''}</span></li>`).join('')}</ul>`
+    : '<p class="ok">You covered all the key concepts.</p>';
+
+  const fl = r.fluency || {};
+
+  d.innerHTML = `
+    <p class="mut" style="margin:0 0 4px">${q ? q.question : 'Question ' + r.question_id}</p>
+    <div class="result-head">
+      <div class="score">${r.final_score ?? '--'}<small>/100</small></div>
+      ${gradeBadge(r.grade)}
+    </div>
+    <table>
+      ${bar('Accuracy', r.rubric_parts?.accuracy)}
+      ${bar('Relevance', r.rubric_parts?.relevance)}
+      ${bar('Completeness', r.rubric_parts?.completeness)}
+      ${bar('Fluency', r.rubric_parts?.fluency)}
+      ${bar('Delivery', r.rubric_parts?.delivery)}
+    </table>
+    <div class="block">
+      <h3 style="margin-top:0">How you sounded</h3>
+      ${vdHtml}
+      <div class="chips">
+        <span class="chip"><b>${fl.wpm || 0}</b> words/min</span>
+        <span class="chip"><b>${fl.filler_count || 0}</b> filler words</span>
+        <span class="chip"><b>${r.topic_drift?.drift_pct || 0}%</b> off-topic</span>
+      </div>
+    </div>
+    <div class="block">${missingHtml}</div>
+    ${r.ideal_answer ? `<details><summary>See a model answer</summary><p>${r.ideal_answer}</p></details>` : ''}
+  `;
+  $('result').prepend(d);
+}
+
+async function finish() {
+  try {
+    const s = await fetch('/api/report/' + sid).then(r => r.json());
+    const d = document.createElement('section');
+    d.className = 'panel';
+    d.innerHTML = `
+      <svg class="stars" id="stars-done" aria-hidden="true"></svg>
+      <h2>Session complete</h2>
+      <div class="result-head">
+        <div class="score">${s.avg_final}<small>/100</small></div>
+        <span class="mut">average across ${s.answers} answers</span>
+      </div>
+      <table>
+        ${bar('Accuracy', s.avg_semantic)}
+        ${bar('Relevance', 100 - s.avg_drift_pct)}
+        ${bar('Completeness', s.avg_concept_cov)}
+        ${bar('Fluency', s.avg_fluency)}
+      </table>
+      <div class="block">
+        <h3 style="margin-top:0">Study next</h3>
+        ${(s.top_missing_concepts || []).length
+          ? `<ul>${s.top_missing_concepts.map(m => `<li>${m[0]} <span class="mut">missed in ${m[1]} answer${m[1] > 1 ? 's' : ''}</span></li>`).join('')}</ul>`
+          : '<p class="ok">Nothing missing. Every concept was covered.</p>'}
+      </div>
+      <div class="row" style="margin-top:18px"><button class="primary" id="again">Practise another set</button></div>
+    `;
+    $('result').prepend(d);
+    drawStars($('stars-done'));
+    $('again').onclick = () => { $('start').click(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  } catch (e) {
+    console.error("Report error:", e);
+  }
+}
+</script>
+</main>
+</body>
+</html>
